@@ -87,6 +87,10 @@ if (strlen($_SESSION['login']) == 0) {
             .category-list li i {
                 margin-right: 5px;
             }
+
+            .col-sm-6 {
+                width: 100%;
+            }
         </style>
     </head>
 
@@ -97,14 +101,34 @@ if (strlen($_SESSION['login']) == 0) {
         <!-- <div class="logo-container">
             <img src="assets/img/cc.png" class="img-responsive" alt="evsulogo" id="logo">
         </div> -->
+
         <div class="content-wrapper">
             <div class="container">
-                <div class="row justify-content-center">
+                <div class="justify-content-center">
                     <div class="col-sm-6">
                         <!-- Panel Section -->
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                List of Books
+                                Borrow Books
+                            </div>
+                            <div class="category-container">
+                                <h4>Categories</h4>
+                                <ul class="category-list">
+                                    <?php
+                                    $categorySql = "SELECT DISTINCT CategoryName FROM tblcategory";
+                                    $categoryQuery = $dbh->prepare($categorySql);
+                                    $categoryQuery->execute();
+                                    $categories = $categoryQuery->fetchAll(PDO::FETCH_COLUMN);
+                                    foreach ($categories as $category) {
+                                    ?>
+                                        <li>
+                                            <a href="?category=<?php echo urlencode($category); ?>">
+                                                <i class="fa fa-book"></i>
+                                                <?php echo htmlentities($category); ?>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
                             </div>
                             <div class="panel-body">
                                 <form action="borrow.php" method="post">
@@ -139,7 +163,7 @@ if (strlen($_SESSION['login']) == 0) {
                                     if ($query->rowCount() > 0) {
                                         foreach ($results as $result) {
                                     ?>
-                                            <div class="col-md-4" style="height:400px;">
+                                            <div class="col-md-2" style="height:400px;">
                                                 <img src="admin/bookimg/<?php echo htmlentities($result->bookImage); ?>" width="150" height="200">
                                                 <br /><b><?php echo htmlentities($result->BookName); ?></b><br />
                                                 <?php echo htmlentities($result->CategoryName); ?><br />
@@ -147,6 +171,7 @@ if (strlen($_SESSION['login']) == 0) {
                                                 <?php echo htmlentities($result->ISBNNumber); ?><br />
                                                 <?php if ($result->isIssued == '1') : ?>
                                                     <p style="color:red;">Book Already issued</p>
+
                                                 <?php endif; ?>
                                             </div>
                                     <?php
@@ -158,75 +183,11 @@ if (strlen($_SESSION['login']) == 0) {
                         </div>
                         <!-- End Panel Section -->
                     </div>
-                    <div class="col-sm-6">
-                        <!-- Search Container -->
-                        <div class="search-container">
-                            <form action="" method="get">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search for books..." name="search" value="<?php echo $search; ?>">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- End Search Container -->
-                        <!-- Category Container -->
-                        <div class="category-container">
-                            <h4>Categories</h4>
-                            <ul class="category-list">
-                                <?php
-                                $categorySql = "SELECT DISTINCT CategoryName FROM tblcategory";
-                                $categoryQuery = $dbh->prepare($categorySql);
-                                $categoryQuery->execute();
-                                $categories = $categoryQuery->fetchAll(PDO::FETCH_COLUMN);
-                                foreach ($categories as $category) {
-                                ?>
-                                    <li>
-                                        <a href="?category=<?php echo urlencode($category); ?>">
-                                            <i class="fa fa-book"></i>
-                                            <?php echo htmlentities($category); ?>
-                                        </a>
-                                    </li>
-                                <?php } ?>
-                            </ul>
-                        </div>
-                        <!-- End Category Container -->
-                        <div class="slider">
-                            <!-- Slider---->
-                            <div id="carousel-example" class="carousel slide slide-bdr" data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="item active">
-                                        <img src="assets/img/IMG_20240419_091905.jpg" alt="" />
-                                    </div>
-                                    <div class="item">
-                                        <img src="assets/img/IMG_20240419_091910.jpg" alt="" />
-                                    </div>
-                                    <div class="item">
-                                        <img src="assets/img/IMG_20240419_091914.jpg" alt="" />
-                                    </div>
-                                </div>
-                                <!-- INDICATORS -->
-                                <ol class="carousel-indicators">
-                                    <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
-                                    <li data-target="#carousel-example" data-slide-to="1"></li>
-                                    <li data-target="#carousel-example" data-slide-to="2"></li>
-                                </ol>
-                                <!--PREVIUS-NEXT BUTTONS-->
-                                <a class="left carousel-control" href="#carousel-example" data-slide="prev">
-                                    <span class="glyphicon glyphicon-chevron-left"></span>
-                                </a>
-                                <a class="right carousel-control" href="#carousel-example" data-slide="next">
-                                    <span class="glyphicon glyphicon-chevron-right"></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
-        </div>
-        </div>
+
         <!-- CONTENT-WRAPPER SECTION END-->
         <?php include('includes/footer.php'); ?>
         <!-- FOOTER SECTION END-->

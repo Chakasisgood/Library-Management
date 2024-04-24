@@ -6,6 +6,7 @@ include('includes/config.php');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -21,9 +22,10 @@ include('includes/config.php');
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
+
 <body>
     <!------MENU SECTION START-->
-    <?php include('includes/header.php');?>
+    <?php include('includes/header.php'); ?>
     <!-- MENU SECTION END-->
     <div class="content-wrapper">
         <div class="container">
@@ -46,4 +48,5 @@ include('includes/config.php');
     <!-- CUSTOM SCRIPTS  -->
     <script src="assets/js/custom.js"></script>
 </body>
+
 </html>
