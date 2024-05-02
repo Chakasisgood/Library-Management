@@ -1,26 +1,35 @@
 <style>
-    .logo-container {
-        padding: 10px;
-        background-color: #d30707;
-        /* Adjust the width as needed */
-        margin: 0 auto;
-        /* Center the logo-container horizontally */
-        height: 10px;
+    .logo {
+        width: 100px;
     }
-</style>
-<!-- <div class="logo-container">
-        <img src="assets/img/cc.png" class="img-responsive" alt="evsulogo" id ="logo">
-    </div> -->
 
-</div>
+    #nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .logo-container {
+            /* padding: 10px; */
+            /* Adjust the dimensions as needed */
+            width: 100%; /* Set the width */
+            height: 50%; /* Set the height */
+            margin-bottom: 50px;
+            /* Center the logo-container horizontally */
+            position: relative;
+            display: inline-block; /* Ensure the container doesn't collapse */
+        }
+</style>
+
 <!-- LOGO HEADER END-->
 <section class="menu-section">
     <div class="container">
         <div class="row ">
-            <div class="col-md-14">
+            <div class="col-md-12">
                 <div class="navbar-collapse collapse ">
-                    <ul id="menu-top" class="nav navbar-nav navbar-right">
-                        <li><a href="dashboard.php">DASHBOARD</a></li>
+                    <ul id="menu-top" class="nav navbar-nav navbar-center">
+                        <li><a href="dashboard.php" class="menu-top-active">DASHBOARD</a></li>
 
                         <li>
                             <a href="#" class="dropdown-toggle" id="ddlmenuItem" data-toggle="dropdown"> Categories <i class="fa fa-angle-down"></i></a>
@@ -54,7 +63,8 @@
                         <li><a href="reg-students.php">Registered Students</a></li>
 
                         <li><a href="change-password.php">Change Password</a></li>
-                        <li> <a href="logout.php">LOG ME OUT</a></li>
+
+                        <li><a href="logout.php" class="menu-top-active">LOG OUT</a></li>
 
                     </ul>
                 </div>
@@ -63,3 +73,6 @@
         </div>
     </div>
 </section>
+<div class="logo-container">
+    <!-- Logo Image -->
+    <img src="assets/img/evsul.png" class="img-responsive" alt="evsulogo" id="logo">

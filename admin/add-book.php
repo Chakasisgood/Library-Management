@@ -160,6 +160,13 @@ if (strlen($_SESSION['alogin']) == 0) {
                                             <span id="isbn-availability-status" style="font-size:12px;"></span>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Quantity<span style="color:red;">*</span></label>
+                                            <input class="form-control" type="number" name="price" id="quantity" required="required" autocomplete="off" onBlur="checkisbnAvailability()" />
+
+                                        </div>
+                                    </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">

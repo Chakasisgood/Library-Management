@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 include('includes/config.php');
 
-if (strlen($_SESSION['login']) == 0) {
+if (strlen($_SESSION['login']) == 1) {
     header('location:index.php');
 } else {
 ?>
@@ -111,83 +111,103 @@ if (strlen($_SESSION['login']) == 0) {
                             <div class="panel-heading">
                                 Borrow Books
                             </div>
-                            <div class="category-container">
-                                <h4>Categories</h4>
-                                <ul class="category-list">
-                                    <?php
-                                    $categorySql = "SELECT DISTINCT CategoryName FROM tblcategory";
-                                    $categoryQuery = $dbh->prepare($categorySql);
-                                    $categoryQuery->execute();
-                                    $categories = $categoryQuery->fetchAll(PDO::FETCH_COLUMN);
-                                    foreach ($categories as $category) {
-                                    ?>
-                                        <li>
-                                            <a href="?category=<?php echo urlencode($category); ?>">
-                                                <i class="fa fa-book"></i>
-                                                <?php echo htmlentities($category); ?>
-                                            </a>
-                                        </li>
-                                    <?php } ?>
-                                </ul>
-                            </div>
-                            <div class="panel-body">
-                                <form action="borrow.php" method="post">
-                                    <?php
-                                    // Check if search query is set
-                                    if (isset($_GET['search']) && !empty($_GET['search'])) {
-                                        $search = $_GET['search'];
-                                        // Store search query in session variable
-                                        $_SESSION['search'] = $search;
-                                        $sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage,tblbooks.isIssued 
+                            <div class="col-sm-6">
+                                <br>
+                                <div class="search-container">
+                                    <form action="" method="get">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search for books..." name="search" value="<?php echo $search; ?>">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- <div class="category-container">
+                                    <h4>Categories</h4>
+
+                                    <ul class="category-list">
+                                        <?php
+                                        $categorySql = "SELECT DISTINCT CategoryName FROM tblcategory";
+                                        $categoryQuery = $dbh->prepare($categorySql);
+                                        $categoryQuery->execute();
+                                        $categories = $categoryQuery->fetchAll(PDO::FETCH_COLUMN);
+                                        foreach ($categories as $category) {
+                                        ?>
+                                            <li>
+                                                <a href="?category=<?php echo urlencode($category); ?>">
+                                                    <i class="fa fa-book"></i>
+                                                    <?php echo htmlentities($category); ?>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
+                                </div> -->
+                                <div class="panel-body">
+                                    <form action="borrow.php" method="post">
+                                        <?php
+                                        // Check if search query is set
+                                        if (isset($_GET['search']) && !empty($_GET['search'])) {
+                                            $search = $_GET['search'];
+                                            // Store search query in session variable
+                                            $_SESSION['search'] = $search;
+                                            $sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage,tblbooks.isIssued 
                                             FROM  tblbooks 
                                             JOIN tblcategory ON tblcategory.id=tblbooks.CatId 
                                             JOIN tblauthors ON tblauthors.id=tblbooks.AuthorId
                                             WHERE tblbooks.BookName LIKE '%$search%' OR tblcategory.CategoryName LIKE '%$search%' OR tblauthors.AuthorName LIKE '%$search%' OR tblbooks.ISBNNumber LIKE '%$search%'";
-                                    } elseif (isset($_GET['category']) && !empty($_GET['category'])) {
-                                        $category = $_GET['category'];
-                                        $sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage,tblbooks.isIssued 
+                                        } elseif (isset($_GET['category']) && !empty($_GET['category'])) {
+                                            $category = $_GET['category'];
+                                            $sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage,tblbooks.isIssued 
                                             FROM  tblbooks 
                                             JOIN tblcategory ON tblcategory.id=tblbooks.CatId 
                                             JOIN tblauthors ON tblauthors.id=tblbooks.AuthorId
                                             WHERE tblcategory.CategoryName = '$category'";
-                                    } else {
-                                        $sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage,tblbooks.isIssued 
+                                        } else {
+                                            $sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblauthors.AuthorName,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage,tblbooks.isIssued 
                                             FROM  tblbooks 
                                             JOIN tblcategory ON tblcategory.id=tblbooks.CatId 
                                             JOIN tblauthors ON tblauthors.id=tblbooks.AuthorId";
-                                    }
-                                    $query = $dbh->prepare($sql);
-                                    $query->execute();
-                                    $results = $query->fetchAll(PDO::FETCH_OBJ);
-                                    $cnt = 1;
-                                    if ($query->rowCount() > 0) {
-                                        foreach ($results as $result) {
-                                    ?>
-                                            <div class="col-md-2" style="height:400px;">
-                                                <img src="admin/bookimg/<?php echo htmlentities($result->bookImage); ?>" width="150" height="200">
-                                                <br /><b><?php echo htmlentities($result->BookName); ?></b><br />
-                                                <?php echo htmlentities($result->CategoryName); ?><br />
-                                                <?php echo htmlentities($result->AuthorName); ?><br />
-                                                <?php echo htmlentities($result->ISBNNumber); ?><br />
-                                                <?php if ($result->isIssued == '1') : ?>
-                                                    <p style="color:red;">Book Already issued</p>
-
-                                                <?php endif; ?>
-                                            </div>
-                                    <?php
-                                            $cnt = $cnt + 1;
                                         }
-                                    } ?>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- End Panel Section -->
-                    </div>
+                                        $query = $dbh->prepare($sql);
+                                        $query->execute();
+                                        $results = $query->fetchAll(PDO::FETCH_OBJ);
+                                        $cnt = 1;
+                                        if ($query->rowCount() > 0) {
+                                            foreach ($results as $result) {
+                                        ?>
+                                                <div class="col-md-2" style="height:100% ">
+                                                    <img src="admin/bookimg/<?php echo htmlentities($result->bookImage); ?>" width="150" height="200">
+                                                    <br /><b><?php echo htmlentities($result->BookName); ?></b><br />
+                                                    <?php echo htmlentities($result->CategoryName); ?><br />
+                                                    <?php echo htmlentities($result->AuthorName); ?><br />
+                                                    <?php echo htmlentities($result->ISBNNumber); ?><br />
+                                                    <?php echo htmlentities($result->BookPrice); ?><br />
 
+                                                    <?php if ($result->BookPrice == '0') : ?>
+                                                        <p style="color:red;">Book Already issued</p>
+                                                    <?php else : ?>
+                                                        <button type="button"><a href="borrow.php">Borrow</a></button>
+
+                                                    <?php endif; ?>
+                                                </div>
+
+                                        <?php
+                                                $cnt = $cnt + 1;
+                                            }
+                                        } ?>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- End Panel Section -->
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-
+        </div>
+        </div>
         <!-- CONTENT-WRAPPER SECTION END-->
         <?php include('includes/footer.php'); ?>
         <!-- FOOTER SECTION END-->

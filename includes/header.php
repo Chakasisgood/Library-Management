@@ -1,21 +1,25 @@
 <?php if ($_SESSION['login']) {
 ?>
-    <!-- <div class="right-div"> -->
-    <!-- <a href="logout.php" class="btn btn-danger pull-right">LOG ME OUT</a> -->
-    <!-- </div> -->
-    <!-- LOGO HEADER END-->
+    <!-- <div class="navbar navbar-inverse set-radius-zero">
+        <div class="divlogo">
+            <img class="logo" src="assets/img/logo.gif" />
+            <div id="nav" class="navbar-header">
+                <p>HURAM: Library Management System</p>
+            </div>
+        </div>
+    </div> -->
 <?php } ?>
 <?php if ($_SESSION['login']) {
 ?>
     <section class="menu-section">
         <div class="container">
-            <div class="row ">
+            <div class="row">
                 <div class="col-md-12">
                     <div class="navbar-collapse collapse ">
                         <ul id="menu-top" class="nav navbar-nav navbar-left"> <!-- Changed navbar-right to navbar-left -->
                             <!-- <li><a href="homepage.php" class="menu-top-active">Homepage</a></li> -->
                             <li><a href="listed-books.php">List of Books</a></li>
-                            <li><a href="borrow-book.php">Borrow Books</a></li>
+                            <!-- <li><a href="borrow-book.php">Borrow Books</a></li> -->
                             <li><a href="issued-books.php">Issued Books</a></li>
                             <li>
                                 <a href="#" class="dropdown-toggle" id="ddlmenuItem" data-toggle="dropdown"> Account <i class="fa fa-angle-down"></i></a>

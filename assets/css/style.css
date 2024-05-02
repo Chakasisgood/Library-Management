@@ -59,10 +59,10 @@ body {
 }
 .menu-section {
   background-color: #b01010;
-  border-bottom: 5px;
+  /* border-bottom: 5px; */
   width: 100%;
-  height: 10%;
-  margin-bottom: 3rem;
+  height: 5%;
+  /* margin-bottom: 3rem; */
 }
 .menu-top-active {
   background-color: #d30707;

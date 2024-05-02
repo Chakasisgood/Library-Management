@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 11, 2019 at 04:13 PM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.3.0
+-- Host: localhost
+-- Generation Time: Apr 28, 2024 at 01:36 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -34,15 +33,15 @@ CREATE TABLE `admin` (
   `AdminEmail` varchar(120) DEFAULT NULL,
   `UserName` varchar(100) NOT NULL,
   `Password` varchar(100) NOT NULL,
-  `updationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `updationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`id`, `FullName`, `AdminEmail`, `UserName`, `Password`, `updationDate`) VALUES
-(2, 'Clive Dela Cruz', 'clive@yahoo.com', 'admin', 'f925916e2754e5e03f75dd58a5733251', '2019-04-11 13:56:38');
+(1, 'Anuj Kumar', 'admin@gmail.com', 'admin', 'f925916e2754e5e03f75dd58a5733251', '2024-01-20 06:03:56');
 
 -- --------------------------------------------------------
 
@@ -53,21 +52,27 @@ INSERT INTO `admin` (`id`, `FullName`, `AdminEmail`, `UserName`, `Password`, `up
 CREATE TABLE `tblauthors` (
   `id` int(11) NOT NULL,
   `AuthorName` varchar(159) DEFAULT NULL,
-  `creationDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `creationDate` timestamp NULL DEFAULT current_timestamp(),
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblauthors`
 --
 
 INSERT INTO `tblauthors` (`id`, `AuthorName`, `creationDate`, `UpdationDate`) VALUES
-(1, 'Anuj kumar', '2017-07-08 12:49:09', '2017-07-08 15:16:59'),
-(2, 'Chetan Bhagatt', '2017-07-08 14:30:23', '2017-07-08 15:15:09'),
-(3, 'Anita Desai', '2017-07-08 14:35:08', NULL),
-(4, 'HC Verma', '2017-07-08 14:35:21', NULL),
-(5, 'R.D. Sharma ', '2017-07-08 14:35:36', NULL),
-(9, 'fwdfrwer', '2017-07-08 15:22:03', NULL);
+(1, 'Anuj kumar', '2024-01-25 07:23:03', '2024-02-04 06:34:19'),
+(2, 'Chetan Bhagatt', '2024-01-25 07:23:03', '2024-02-04 06:34:26'),
+(3, 'Anita Desai', '2024-01-25 07:23:03', '2024-02-04 06:34:26'),
+(4, 'HC Verma', '2024-01-25 07:23:03', '2024-02-04 06:34:26'),
+(5, 'R.D. Sharma ', '2024-01-25 07:23:03', '2024-02-04 06:34:26'),
+(9, 'fwdfrwer', '2024-01-25 07:23:03', '2024-02-04 06:34:26'),
+(10, 'Dr. Andy Williams', '2024-01-25 07:23:03', '2024-02-04 06:34:26'),
+(11, 'Kyle Hill', '2024-01-25 07:23:03', '2024-02-04 06:34:26'),
+(12, 'Robert T. Kiyosak', '2024-01-25 07:23:03', '2024-02-04 06:34:26'),
+(13, 'Kelly Barnhill', '2024-01-25 07:23:03', '2024-02-04 06:34:26'),
+(14, 'Herbert Schildt', '2024-01-25 07:23:03', '2024-02-04 06:34:26'),
+(16, 'Jessi Hugo', '2024-04-16 21:33:49', NULL);
 
 -- --------------------------------------------------------
 
@@ -80,19 +85,29 @@ CREATE TABLE `tblbooks` (
   `BookName` varchar(255) DEFAULT NULL,
   `CatId` int(11) DEFAULT NULL,
   `AuthorId` int(11) DEFAULT NULL,
-  `ISBNNumber` int(11) DEFAULT NULL,
-  `BookPrice` int(11) DEFAULT NULL,
-  `RegDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `ISBNNumber` varchar(25) DEFAULT NULL,
+  `BookPrice` int(100) DEFAULT NULL,
+  `bookImage` varchar(250) NOT NULL,
+  `isIssued` int(1) DEFAULT NULL,
+  `RegDate` timestamp NULL DEFAULT current_timestamp(),
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblbooks`
 --
 
-INSERT INTO `tblbooks` (`id`, `BookName`, `CatId`, `AuthorId`, `ISBNNumber`, `BookPrice`, `RegDate`, `UpdationDate`) VALUES
-(1, 'PHP And MySql programming', 5, 1, 222333, 20, '2017-07-08 20:04:55', '2017-07-15 05:54:41'),
-(3, 'physics', 6, 4, 1111, 15, '2017-07-08 20:17:31', '2017-07-15 06:13:17');
+INSERT INTO `tblbooks` (`id`, `BookName`, `CatId`, `AuthorId`, `ISBNNumber`, `BookPrice`, `bookImage`, `isIssued`, `RegDate`, `UpdationDate`) VALUES
+(1, 'PHP And MySql programming', 5, 9, '222333', 20, '1efecc0ca822e40b7b673c0d79ae943f.jpg', 1, '2024-01-30 07:23:03', '2024-04-08 10:49:46'),
+(3, 'physics', 6, 4, '1111', 15, 'dd8267b57e0e4feee5911cb1e1a03a79.jpg', 1, '2024-01-30 07:23:03', '2024-04-24 01:59:36'),
+(5, 'Murach\'s MySQL', 5, 1, '9350237695', 455, '5939d64655b4d2ae443830d73abc35b6.jpg', 1, '2024-01-30 07:23:03', '2024-02-04 06:34:11'),
+(6, 'WordPress for Beginners 2022: A Visual Step-by-Step Guide to Mastering WordPress', 5, 10, 'B019MO3WCM', 100, '144ab706ba1cb9f6c23fd6ae9c0502b3.jpg', 1, '2024-01-30 07:23:03', '2024-04-24 04:46:06'),
+(7, 'WordPress Mastery Guide:', 5, 11, 'B09NKWH7NP', 53, '90083a56014186e88ffca10286172e64.jpg', 1, '2024-01-30 07:23:03', '2024-04-27 23:40:57'),
+(8, 'Rich Dad Poor Dad: What the Rich Teach Their Kids About Money That the Poor and Middle Class Do Not', 8, 12, 'B07C7M8SX9', 120, '52411b2bd2a6b2e0df3eb10943a5b640.jpg', NULL, '2024-01-30 07:23:03', '2024-02-04 06:34:11'),
+(9, 'The Girl Who Drank the Moon', 8, 13, '1848126476', 200, 'f05cd198ac9335245e1fdffa793207a7.jpg', NULL, '2024-01-30 07:23:03', '2024-02-04 06:34:11'),
+(10, 'C++: The Complete Reference, 4th Edition', 5, 14, '007053246X', 142, '36af5de9012bf8c804e499dc3c3b33a5.jpg', 1, '2024-01-30 07:23:03', '2024-04-23 18:19:40'),
+(11, 'ASP.NET Core 5 for Beginners', 9, 11, 'GBSJ36344563', 422, 'b1b6788016bbfab12cfd2722604badc9.jpg', 0, '2024-01-30 07:23:03', '2024-02-04 06:34:11'),
+(14, 'Jessica', 4, 16, '110202', NULL, '410d743ebdffaf3f72746420a5270214.jpg', 0, '2024-04-16 21:42:26', '2024-04-24 05:05:40');
 
 -- --------------------------------------------------------
 
@@ -104,19 +119,21 @@ CREATE TABLE `tblcategory` (
   `id` int(11) NOT NULL,
   `CategoryName` varchar(150) DEFAULT NULL,
   `Status` int(1) DEFAULT NULL,
-  `CreationDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdationDate` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `CreationDate` timestamp NULL DEFAULT current_timestamp(),
+  `UpdationDate` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblcategory`
 --
 
 INSERT INTO `tblcategory` (`id`, `CategoryName`, `Status`, `CreationDate`, `UpdationDate`) VALUES
-(4, 'Romantic', 1, '2017-07-04 18:35:25', '2017-07-06 16:00:42'),
-(5, 'Technology', 1, '2017-07-04 18:35:39', '2017-07-08 17:13:03'),
-(6, 'Science', 1, '2017-07-04 18:35:55', '0000-00-00 00:00:00'),
-(7, 'Management', 0, '2017-07-04 18:36:16', '0000-00-00 00:00:00');
+(4, 'Romantic', 1, '2024-01-31 07:23:03', '2024-02-04 06:33:43'),
+(5, 'Technology', 1, '2024-01-31 07:23:03', '2024-02-04 06:33:51'),
+(6, 'Science', 1, '2024-01-31 07:23:03', '2024-02-04 06:33:51'),
+(7, 'Management', 1, '2024-01-31 07:23:03', '2024-02-04 06:33:51'),
+(8, 'General', 1, '2024-01-31 07:23:03', '2024-02-04 06:33:51'),
+(9, 'Programming', 1, '2024-01-31 07:23:03', '2024-02-04 06:33:51');
 
 -- --------------------------------------------------------
 
@@ -128,23 +145,36 @@ CREATE TABLE `tblissuedbookdetails` (
   `id` int(11) NOT NULL,
   `BookId` int(11) DEFAULT NULL,
   `StudentID` varchar(150) DEFAULT NULL,
-  `IssuesDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `ReturnDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `IssuesDate` timestamp NULL DEFAULT current_timestamp(),
+  `ReturnDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   `RetrunStatus` int(1) DEFAULT NULL,
   `fine` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblissuedbookdetails`
 --
 
 INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `StudentID`, `IssuesDate`, `ReturnDate`, `RetrunStatus`, `fine`) VALUES
-(1, 1, 'SID002', '2017-07-15 06:09:47', '2017-07-15 11:15:20', 1, 0),
-(2, 1, 'SID002', '2017-07-15 06:12:27', '2017-07-15 11:15:23', 1, 5),
-(3, 3, 'SID002', '2017-07-15 06:13:40', NULL, 0, NULL),
-(4, 3, 'SID002', '2017-07-15 06:23:23', '2017-07-15 11:22:29', 1, 2),
-(5, 1, 'SID009', '2017-07-15 10:59:26', NULL, 0, NULL),
-(6, 3, 'SID011', '2017-07-15 18:02:55', NULL, 0, NULL);
+(14, 10, '2021-25647', '2024-04-08 10:48:55', '2024-04-16 03:06:44', 1, 500),
+(16, 10, '2021', '2024-04-23 18:19:40', '2024-04-24 16:00:00', NULL, NULL),
+(17, 3, '2021', '2024-04-24 01:59:36', '2024-04-24 16:00:00', NULL, NULL),
+(18, 6, '2021', '2024-04-24 04:46:06', '2024-04-23 16:00:00', NULL, NULL),
+(19, 7, '2021', '2024-04-24 05:01:58', '2024-04-24 05:26:49', 1, 200),
+(20, 14, '2021', '2024-04-24 05:03:23', '2024-04-24 05:05:40', 1, 200),
+(21, 7, '2021', '2024-04-24 07:22:53', '2024-04-24 08:06:08', 1, 100),
+(22, 7, '2021', '2024-04-27 23:40:57', '2024-04-28 16:00:00', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblsection`
+--
+
+CREATE TABLE `tblsection` (
+  `id` int(11) NOT NULL,
+  `section_name` varchar(150) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -160,20 +190,18 @@ CREATE TABLE `tblstudents` (
   `MobileNumber` char(11) DEFAULT NULL,
   `Password` varchar(120) DEFAULT NULL,
   `Status` int(1) DEFAULT NULL,
-  `RegDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `RegDate` timestamp NULL DEFAULT current_timestamp(),
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblstudents`
 --
 
 INSERT INTO `tblstudents` (`id`, `StudentId`, `FullName`, `EmailId`, `MobileNumber`, `Password`, `Status`, `RegDate`, `UpdationDate`) VALUES
-(1, 'SID002', 'Andrew Braza', 'andrew1@gmail.com', '9865472555', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-11 15:37:05', '2019-04-11 14:11:39'),
-(4, 'SID005', 'John Roberts', 'john@yahoo.com', '8569710025', '92228410fc8b872914e023160cf4ae8f', 0, '2017-07-11 15:41:27', '2019-04-11 14:12:04'),
-(9, 'SID010', 'Rey Tejada', 'rey@gmail.com', '8585856224', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-15 13:40:30', '2019-04-11 14:12:27'),
-(10, 'SID011', 'Clide Louie', 'CLIDE@gmail.com', '4672423754', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-15 18:00:59', '2019-04-11 14:12:50'),
-(11, 'SID012', 'Clive Dela Cruz', 'clive21@yahoo.com', '0945208280', '21232f297a57a5a743894a0e4a801fc3', 1, '2019-04-11 13:46:30', NULL);
+(17, '2021-25647', 'Jessica Hugo', 'jessicahugo78@gmail.com', '9465209147', '01fff2ef1ce8881908fac918feca78bf', 1, '2024-04-06 12:12:53', NULL),
+(18, '2021-25160', 'Eva Mae Arpon', 'evamaearpon@gmail.com', '946520914', 'e305dc8fb13a30da449162f2c72678cc', 0, '2024-04-17 03:09:53', '2024-04-21 08:07:03'),
+(19, '2021', 'matthew solar', 'matthewsolar@gmail.com', '09921', '1a8a1a2a5da9cecb9bd0d0fa3c31b95f', 1, '2024-04-23 15:09:18', NULL);
 
 --
 -- Indexes for dumped tables
@@ -210,6 +238,12 @@ ALTER TABLE `tblissuedbookdetails`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tblsection`
+--
+ALTER TABLE `tblsection`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tblstudents`
 --
 ALTER TABLE `tblstudents`
@@ -224,37 +258,43 @@ ALTER TABLE `tblstudents`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblauthors`
 --
 ALTER TABLE `tblauthors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tblbooks`
 --
 ALTER TABLE `tblbooks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tblcategory`
 --
 ALTER TABLE `tblcategory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tblissuedbookdetails`
 --
 ALTER TABLE `tblissuedbookdetails`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `tblsection`
+--
+ALTER TABLE `tblsection`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblstudents`
 --
 ALTER TABLE `tblstudents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

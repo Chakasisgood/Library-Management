@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 include('includes/config.php');
 
-if (strlen($_SESSION['login']) == 0) {
+if (strlen($_SESSION['login']) == 1) {
     header('location:index.php');
 } else {
 ?>
@@ -44,14 +44,15 @@ if (strlen($_SESSION['login']) == 0) {
             }
 
             .logo-container {
-                padding: 10px;
-                background-color: #d30707;
-                max-width: 100%;
-                /* Adjust the width as needed */
-                margin: 0 auto;
-                /* Center the logo-container horizontally */
-                min-height: 40%;
-            }
+            /* padding: 10px; */
+            /* Adjust the dimensions as needed */
+            width: 100%; /* Set the width */
+            height: 50%; /* Set the height */
+            margin-bottom: 50px;
+            /* Center the logo-container horizontally */
+            position: relative;
+            display: inline-block; /* Ensure the container doesn't collapse */
+        }
 
             .category-container {
                 margin-top: 20px;
@@ -87,6 +88,53 @@ if (strlen($_SESSION['login']) == 0) {
             .category-list li i {
                 margin-right: 5px;
             }
+
+            option {
+                color: black;
+            }
+
+            .image-container {
+                position: relative;
+                display: inline-block;
+            }
+
+            .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 50%;
+                height: 50%;
+                background-color: rgba(0, 0, 0, 0.5);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                align-items: center;
+            }
+
+            .overlay:hover {
+                opacity: 1; /* Show overlay on hover */
+            }
+
+            .overlay-button {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 5px 5px;
+                background-color: #cadefc; /* Button background color */
+                color: #000000; /* Button text color */
+                font-size: 15px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for button */
+            }
+
+            .overlay-button:hover {
+                background-color: #333333; /* Change background color on hover */
+                color: #ffffff; /* Change text color on hover */
+            }
+
+            
         </style>
     </head>
 
@@ -94,9 +142,9 @@ if (strlen($_SESSION['login']) == 0) {
         <!------MENU SECTION START-->
         <?php include('includes/header.php'); ?>
         <!-- MENU SECTION END-->
-        <!-- <div class="logo-container">
-            <img src="assets/img/cc.png" class="img-responsive" alt="evsulogo" id="logo">
-        </div> -->
+        <div class="logo-container">
+            <img src="assets/img/evsul.png" class="img-responsive" alt="evsulogo" id="logo">
+        </div>
         <div class="content-wrapper">
             <div class="container">
                 <div class="row justify-content-center">
@@ -140,14 +188,17 @@ if (strlen($_SESSION['login']) == 0) {
                                         foreach ($results as $result) {
                                     ?>
                                             <div class="col-md-4" style="height:400px;">
-                                                <img src="admin/bookimg/<?php echo htmlentities($result->bookImage); ?>" width="150" height="200">
-                                                <br /><b><?php echo htmlentities($result->BookName); ?></b><br />
-                                                <?php echo htmlentities($result->CategoryName); ?><br />
-                                                <?php echo htmlentities($result->AuthorName); ?><br />
-                                                <?php echo htmlentities($result->ISBNNumber); ?><br />
-                                                <?php if ($result->isIssued == '1') : ?>
-                                                    <p style="color:red;">Book Already issued</p>
-                                                <?php endif; ?>
+                                                <div class="image-container">
+                                                    <img src="admin/bookimg/<?php echo htmlentities($result->bookImage); ?>" width="150" height="200">
+                                                    <br /><b><?php echo htmlentities($result->BookName); ?></b><br />
+                                                    <?php echo htmlentities($result->CategoryName); ?><br />
+                                                    <?php echo htmlentities($result->AuthorName); ?><br />
+                                                    <?php echo htmlentities($result->ISBNNumber); ?><br />
+
+                                                    <div class="overlay">
+                                                        <button class="overlay-button">Borrow</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                     <?php
                                             $cnt = $cnt + 1;
@@ -174,53 +225,22 @@ if (strlen($_SESSION['login']) == 0) {
                         <!-- Category Container -->
                         <div class="category-container">
                             <h4>Categories</h4>
-                            <ul class="category-list">
+                            <select class="category-dropdown" onchange="window.location.href=this.value">
+                                <option value="#">All Categories</option>
                                 <?php
                                 $categorySql = "SELECT DISTINCT CategoryName FROM tblcategory";
                                 $categoryQuery = $dbh->prepare($categorySql);
                                 $categoryQuery->execute();
                                 $categories = $categoryQuery->fetchAll(PDO::FETCH_COLUMN);
                                 foreach ($categories as $category) {
+                                    $encodedCategory = urlencode($category);
                                 ?>
-                                    <li>
-                                        <a href="?category=<?php echo urlencode($category); ?>">
-                                            <i class="fa fa-book"></i>
-                                            <?php echo htmlentities($category); ?>
-                                        </a>
-                                    </li>
+                                    <option value="?category=<?php echo $encodedCategory; ?>"><?php echo htmlentities($category); ?></option>
                                 <?php } ?>
-                            </ul>
+                            </select>
                         </div>
+
                         <!-- End Category Container -->
-                        <div class="slider">
-                            <!-- Slider---->
-                            <div id="carousel-example" class="carousel slide slide-bdr" data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="item active">
-                                        <img src="assets/img/IMG_20240419_091905.jpg" alt="" />
-                                    </div>
-                                    <div class="item">
-                                        <img src="assets/img/IMG_20240419_091910.jpg" alt="" />
-                                    </div>
-                                    <div class="item">
-                                        <img src="assets/img/IMG_20240419_091914.jpg" alt="" />
-                                    </div>
-                                </div>
-                                <!-- INDICATORS -->
-                                <ol class="carousel-indicators">
-                                    <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
-                                    <li data-target="#carousel-example" data-slide-to="1"></li>
-                                    <li data-target="#carousel-example" data-slide-to="2"></li>
-                                </ol>
-                                <!--PREVIUS-NEXT BUTTONS-->
-                                <a class="left carousel-control" href="#carousel-example" data-slide="prev">
-                                    <span class="glyphicon glyphicon-chevron-left"></span>
-                                </a>
-                                <a class="right carousel-control" href="#carousel-example" data-slide="next">
-                                    <span class="glyphicon glyphicon-chevron-right"></span>
-                                </a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

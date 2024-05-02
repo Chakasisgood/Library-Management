@@ -5,21 +5,20 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
+
     if (isset($_POST['update'])) {
         $bookname = $_POST['bookname'];
         $category = $_POST['category'];
         $author = $_POST['author'];
         $isbn = $_POST['isbn'];
         $price = $_POST['price'];
-        $availability = $_POST['availability'];
         $bookid = intval($_GET['bookid']);
-        $sql = "update  tblbooks set BookName=:bookname,CatId=:category,AuthorId=:author,BookPrice=:price,Availability=:availability where id=:bookid";
+        $sql = "update  tblbooks set BookName=:bookname,CatId=:category,AuthorId=:author,BookPrice=:price where id=:bookid";
         $query = $dbh->prepare($sql);
         $query->bindParam(':bookname', $bookname, PDO::PARAM_STR);
         $query->bindParam(':category', $category, PDO::PARAM_STR);
         $query->bindParam(':author', $author, PDO::PARAM_STR);
         $query->bindParam(':price', $price, PDO::PARAM_STR);
-        $query->bindParam(':availability', $availability, PDO::PARAM_STR);
         $query->bindParam(':bookid', $bookid, PDO::PARAM_STR);
         $query->execute();
         echo "<script>alert('Book info updated successfully');</script>";
@@ -43,6 +42,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         <link href="assets/css/style.css" rel="stylesheet" />
         <!-- GOOGLE FONT -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
     </head>
 
     <body>
@@ -54,7 +54,9 @@ if (strlen($_SESSION['alogin']) == 0) {
                 <div class="row pad-botm">
                     <div class="col-md-12">
                         <h4 class="header-line">Add Book</h4>
+
                     </div>
+
                 </div>
                 <div class="row">
                     <div class="col-md12 col-sm-12 col-xs-12">
@@ -66,14 +68,15 @@ if (strlen($_SESSION['alogin']) == 0) {
                                 <form role="form" method="post">
                                     <?php
                                     $bookid = intval($_GET['bookid']);
-                                    $sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblcategory.id as cid,tblauthors.AuthorName,tblauthors.id as athrid,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.Availability,tblbooks.id as bookid,tblbooks.bookImage from  tblbooks join tblcategory on tblcategory.id=tblbooks.CatId join tblauthors on tblauthors.id=tblbooks.AuthorId where tblbooks.id=:bookid";
+                                    $sql = "SELECT tblbooks.BookName,tblcategory.CategoryName,tblcategory.id as cid,tblauthors.AuthorName,tblauthors.id as athrid,tblbooks.ISBNNumber,tblbooks.BookPrice,tblbooks.id as bookid,tblbooks.bookImage from  tblbooks join tblcategory on tblcategory.id=tblbooks.CatId join tblauthors on tblauthors.id=tblbooks.AuthorId where tblbooks.id=:bookid";
                                     $query = $dbh->prepare($sql);
                                     $query->bindParam(':bookid', $bookid, PDO::PARAM_STR);
                                     $query->execute();
                                     $results = $query->fetchAll(PDO::FETCH_OBJ);
                                     $cnt = 1;
                                     if ($query->rowCount() > 0) {
-                                        foreach ($results as $result) { ?>
+                                        foreach ($results as $result) {               ?>
+
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Book Image</label>
@@ -81,12 +84,14 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                     <a href="change-bookimg.php?bookid=<?php echo htmlentities($result->bookid); ?>">Change Book Image</a>
                                                 </div>
                                             </div>
+
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Book Name<span style="color:red;">*</span></label>
                                                     <input class="form-control" type="text" name="bookname" value="<?php echo htmlentities($result->BookName); ?>" required />
                                                 </div>
                                             </div>
+
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label> Category<span style="color:red;">*</span></label>
@@ -103,22 +108,23 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                             foreach ($resultss as $row) {
                                                                 if ($catname == $row->CategoryName) {
                                                                     continue;
-                                                                } else { ?>
-                                                                    <option value="<?php echo htmlentities($row->id); ?>"><?php echo htmlentities($row->CategoryName); ?></option>
-                                                        <?php
-                                                                }
-                                                            }
-                                                        }
+                                                                } else {
                                                         ?>
+                                                                    <option value="<?php echo htmlentities($row->id); ?>"><?php echo htmlentities($row->CategoryName); ?></option>
+                                                        <?php }
+                                                            }
+                                                        } ?>
                                                     </select>
                                                 </div>
                                             </div>
+
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label> Author<span style="color:red;">*</span></label>
                                                     <select class="form-control" name="author" required="required">
                                                         <option value="<?php echo htmlentities($result->athrid); ?>"> <?php echo htmlentities($athrname = $result->AuthorName); ?></option>
                                                         <?php
+
                                                         $sql2 = "SELECT * from  tblauthors ";
                                                         $query2 = $dbh->prepare($sql2);
                                                         $query2->execute();
@@ -127,16 +133,18 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                             foreach ($result2 as $ret) {
                                                                 if ($athrname == $ret->AuthorName) {
                                                                     continue;
-                                                                } else { ?>
-                                                                    <option value="<?php echo htmlentities($ret->id); ?>"><?php echo htmlentities($ret->AuthorName); ?></option>
-                                                        <?php
-                                                                }
-                                                            }
-                                                        }
+                                                                } else {
+
                                                         ?>
+                                                                    <option value="<?php echo htmlentities($ret->id); ?>"><?php echo htmlentities($ret->AuthorName); ?></option>
+                                                        <?php }
+                                                            }
+                                                        } ?>
                                                     </select>
                                                 </div>
                                             </div>
+
+
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>ISBN Number<span style="color:red;">*</span></label>
@@ -144,37 +152,26 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                     <p class="help-block">An ISBN is an International Standard Book Number.ISBN Must be unique</p>
                                                 </div>
                                             </div>
+
+
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Price in USD<span style="color:red;">*</span></label>
+                                                    <label>Quantity<span style="color:red;">*</span></label>
                                                     <input class="form-control" type="text" name="price" value="<?php echo htmlentities($result->BookPrice); ?>" required="required" />
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Availability<span style="color:red;">*</span></label>
-                                                    <select class="form-control" name="availability" required="required">
-                                                        <option value="1" <?php if ($result->Availability == 1) {
-                                                                                echo 'selected';
-                                                                            } ?>>Available</option>
-                                                        <option value="0" <?php if ($result->Availability == 0) {
-                                                                                echo 'selected';
-                                                                            } ?>>Not Available</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                    <?php
-                                        }
-                                    }
-                                    ?>
-                                    <div class="col-md-12">
-                                        <button type="submit" name="update" class="btn btn-info">Update</button>
+                                    <?php }
+                                    } ?><div class="col-md-12">
+                                        <button type="submit" name="update" class="btn btn-info">Update </button>
                                     </div>
+
                                 </form>
                             </div>
                         </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
         <!-- CONTENT-WRAPPER SECTION END-->
